@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en"> 
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bun Bun Bake Shop</title>
+
+	<!-- Poppins font  -->
+  	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;800&display=swap" rel="stylesheet">
+
+	<!-- Logo and Name in Top Tab -->
+	<link rel="shortcut icon" type="image/png" href="images/logo.png">
+
+	<!-- css -->
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<!-- javascript -->
+    <script src="assets/js/main.js" type="text/javascript"></script>
+
+</head>
+<body>
+	<header>
+
+
+	<!-- Logo -->
+		<div id="topbar">
+			<div><a href="index.html" class="title" id="title-image"><img src="images/logo.png" alt="Logo"/></a></div>
+			<div><a href="index.html" class="title" id="title-text">Bun Bun Bake Shop</a></div>
+		
+
+	<!-- Nav -->
+			<div>
+				<nav>
+					<ul>
+						<li><a href="product-browsing.html">Order</a></li>
+						<li>Locations</li>
+						<li>About</li>
+						<li>Log Out</li>
+						<li><a href="cart.html"><img class="icon" src="images/cart.png" alt="Cart"/></a><span id="cart-amount">(0)</span></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</header>
+
+
+	<!-- Back -->
+	<div id="back">
+		<div><a href="product-browsing.html"><img class="icon" id="back-icon" src="images/back.png" alt="Back"/></a></div>
+		<div id="back-text"><p><a href="index.html">Back</a></p></div>
+	</div>
+
+	<!-- Header -->
+	<h2 id="product_name_title" class="page_header">Original Cinnamon Roll, No Glaze, 1-Pack</h2>
+
+	<div class="product_details_and_image">
+		
+		<!-- Cinnamon Roll Picture -->
+		<img id="product_detail_image" src="images/original_large.png" alt="Original Roll" />
+
+		<div class="product_details">
+
+			<!-- Price -->
+			<div class="product_detail_info">
+				<p>Price:</p>
+				<div id="price"><p>$1.99</p></div>
+			</div>
+
+			<!-- Choose Quantity -->
+			<div class="product_detail_info">
+				<p>Quantity:</p>
+				<div id="first_quantity">
+					<button class="quantity_button" id="one" onclick="selectQuantityOne()">1</button>
+				</div>
+				<div>
+					<button class="quantity_button" id="three" onclick="selectQuantityThree()">3</button>
+				</div>
+				<div>
+					<button class="quantity_button" id="six" onclick="selectQuantitySix()">6</button>
+				</div>
+				<div>
+					<button class="quantity_button" id="twelve" onclick="selectQuantityTwelve()">12</button>
+				</div>
+
+			</div>
+
+			<!-- Choose Glaze -->
+			<div class="product_detail_info">
+				<p>Glaze:</p>
+
+			<!-- First Row of  Glaze Options -->
+				<div id="first_glaze">
+					<button class="glaze_button" id="none" onclick="selectNoGlaze()">None</button>
+				</div>
+				<div>
+					<button class="glaze_button" id="sm" onclick="selectSMGlaze()">Sugar-Milk</button>
+				</div>
+			</div>
+
+			<!-- Second Row of  Glaze Options -->
+			<div class="product_detail_info">
+				<div id="glaze_second_row">
+					<button class="glaze_button" id="vm" onclick="selectVMGlaze()">Vanilla-Milk</button>
+				</div>
+				<div>
+					<button class="glaze_button" id="dc" onclick="selectDCGlaze()">Double-Chocolate</button>
+				</div>
+			</div>
+
+
+			<br><br>
+			<!-- Total -->
+			<div><p>Total: $1.99</p></div>
+
+			<!-- Add to Cart Button -->
+			<div>
+				<button onclick="addToCart()" type="button" id="add_to_cart_btn">
+					<!-- Note: divs are not allowed in buttons, but this is necessary to style the button properly -->
+					<div id="cart_btn_contents">
+						<img class="icon" src="images/cart.png" alt="Cart"/>
+						<div class="indented_one_tab" id="add_to_cart_btn_text">Add to Cart</div>
+					</div>
+				</button>
+			</div>
+		</div> 
+	</div>
+	<br><br><br><br><br>
+</body>
+</html> 

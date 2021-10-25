@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en"> 
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bun Bun Bake Shop</title>
+
+	<!-- Poppins font  -->
+  	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;800&display=swap" rel="stylesheet">
+
+	<!-- Logo and Name in Top Tab -->
+	<link rel="shortcut icon" type="image/png" href="images/logo.png">
+
+	<!-- css -->
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<!-- javascript -->
+    
+
+</head>
+<body>
+	<script src="assets/js/main.js"></script>
+	<header>
+
+
+	<!-- Logo -->
+		<div id="topbar">
+			<div><a href="index.html" class="title" id="title-image"><img src="images/logo.png" alt="Logo"/></a></div>
+			<div><a href="index.html" class="title" id="title-text">Bun Bun Bake Shop</a></div>
+		
+
+	<!-- Nav -->
+			<div>
+				<nav>
+					<ul>
+						<li>Order</li>
+						<li>Locations</li>
+						<li>About</li>
+						<li>Log Out</li>
+						<li><a href="cart.html"><img class="icon" src="images/cart.png" alt="Cart"/>(2)</a></li>
+					</ul>
+				</nav>
+			</div>
+
+		</div>
+	</header>
+
+	<h2>Cart</h2>
+
+	<!-- Location Dropdown -->
+
+	<div id="locations_dropdown">
+
+		<label>Location:</label>
+
+		<select name="locations" id="locations_options">
+		  <option value="volvo">Shadyside</option>
+		  <option value="saab">East Liberty</option>
+		  <option value="mercedes">Lawrenceville</option>
+		  <option value="audi">Downtown</option>
+		</select>
+		<br>
+	</div>
+
+	<!-- Summary Card -->
+	
+	<div id="summary-card">
+		<h4> Your Cart </h4>
+		<p>Vanilla-Milk Original Cinnamon Roll (1)</p>
+		<p>Double-Chocolate Blackberry Cinnamon Roll (1)</p>
+		<p id="cart-total"><strong>Total:</strong> $23.88</p>
+		<p id="cart-item-count"><strong>Items:</strong> 2</p>
+		<button id="checkout-btn">
+			<!-- Note: divs are not allowed in buttons, but this is necessary to style the button properly -->
+			Proceed to Checkout
+		</button>
+		
+	</div>
+
+	<!-- Items In Cart -->
+	<div id="individual-items-in-cart">
+		<div class="product_details_and_image">
+			<img class="cart-image" src="images/original.png" alt="Orginal Cinnamon Roll" />
+
+			<div class="product_details">
+
+				<span class="product-in-cart-title">Original Cinnamon Roll</span>
+				&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+				&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+
+				<span>$1.99</span>
+				
+				<!-- Glazing Dropdown -->
+				<div class="glazing_dropdown">
+					<br>
+					<label>Glazing:</label>
+
+					<select name="glazing" class="glazing_options">
+					  <option value="none">None</option>
+					  <option value="sugar-milk">Sugar-Milk</option>
+					  <option value="vanilla-milk">Vanilla-Milk</option>
+					  <option value="double-chocolate">Double Chocolate</option>
+					</select>
+				</div>
+
+
+				<br>
+
+				<!-- Quantity Dropdown -->
+
+				<div class="quantity_dropdown">
+
+					<label>Qty:</label>
+
+					<select name="quantity" class="quantity_options">
+					  <option value="1">1</option>
+					  <option value="3">3</option>
+					  <option value="6">6</option>
+					  <option value="12">12</option>
+					</select>
+				</div>
+
+				<!-- Remove Button -->
+				<br>
+				<button class="remove-from-cart-btn">Remove</button>
+			</div>
+
+		</div>
+
+		<br><br>
+		<!-- Border Between Items in Cart -->
+		<hr class="cart-border">
+		<br><br>
+
+
+		<div class="product_details_and_image">
+			<img class= "cart-image" src="images/pumpkinspice.png" alt="Pumpkin Spice Cinnamon Roll" />
+
+			<div class="product_details">
+
+				<span class="product-in-cart-title">Pumpkin Spice Roll</span>
+				&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+				&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+
+				<span>$23.88</span>
+				
+				<!-- Glazing Dropdown -->
+				<div class="glazing_dropdown">
+					<br>
+					<label>Glazing:</label>
+
+					<select name="glazing" class="glazing_options">
+					  <option value="vanilla-milk">Vanilla-Milk</option>
+					  <option value="none">None</option>
+					  <option value="sugar-milk">Sugar-Milk</option>
+					  <option value="double-chocolate">Double Chocolate</option>
+					</select>
+				</div>
+
+
+				<br>
+
+				<!-- Quantity Dropdown -->
+
+				<div class="quantity_dropdown">
+
+					<label>Qty:</label>
+
+					<select name="quantity" class="quantity_options">
+					  <option value="6">6</option>
+					  <option value="1">1</option>
+					  <option value="3">3</option>
+					  <option value="12">12</option>
+					</select>
+				</div>
+
+				<!-- Remove Button -->
+				<br>
+				<button class="remove-from-cart-btn">Remove</button>
+			</div>
+
+		</div>
+
+		<br><br>
+		<!-- Border Between Items in Cart -->
+		<hr class="cart-border">
+		<br><br>
+	</div>
+
+</body>
+
+</html> 
