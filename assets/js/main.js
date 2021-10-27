@@ -1,10 +1,78 @@
 function addToCart() {
-	let cartElement = document.getElementById("cart-amount")
+	// For debugging purposes -- uncomment below line to reset cart
+	//localStorage.setItem("cart", JSON.stringify([]));
+
+	let cartAmount = document.getElementById("cart-amount");
+	let cartElement = getSelected(); 
+	
+	// retrieve cart
+	if (localStorage.getItem("cart") == null) {
+		localStorage.setItem("cart", JSON.stringify([]));
+	}
+	var cart = JSON.parse(localStorage.getItem("cart"));
+	
+
+	// add to cart
+	cart.push(cartElement);
+
+	// add to local storage
+	localStorage.setItem("cart", JSON.stringify(cart));
+	console.log(cart);
+
+
+	// replace text in nav
 	var amount = 0
-	amount = cartElement.textContent.replace(/\D/g,'') // removes all non-numeric digits from string
+	amount = cartAmount.textContent.replace(/\D/g,'') // removes all non-numeric digits from string
 	let newAmount = parseInt(amount) + 1
-	cartElement.textContent = "(" + newAmount + ")"	
+	cartAmount.textContent = "(" + newAmount + ")"	
+
+	// add to items list in summary card of cart page
+	updateSummaryCard(cart);
+	
 } 
+
+function updateSummaryCard(cart) {
+	let tag = document.createElement("p");
+	let text = document.createTextNode("Tutorix is the best e-learning platform");
+	tag.appendChild(text);
+	let itemsList = document.getElementById("summary-card-items-list");
+	itemsList.appendChild(tag);
+}
+
+function getSelected() {
+	var selected = "rgb(240, 215, 185)";
+	var selectedQuantity;
+	var selectedGlaze;
+
+	// get selecteed quantity button
+	if (document.getElementById("three").style.background == selected) {
+		selectedQuantity = "three"
+	}
+	else if (document.getElementById("six").style.background == selected) {
+		selectedQuantity = "six"
+	}
+	else if (document.getElementById("twelve").style.background == selected) {
+		selectedQuantity = "twelve"
+	}
+	else {
+		selectedQuantity = "one"
+	}
+
+	// get selected glaze button
+		if (document.getElementById("sm").style.background == selected) {
+		selectedGlaze = "sm"
+	}
+	else if (document.getElementById("vm").style.background == selected) {
+		selectedGlaze = "vm"
+	}
+	else if (document.getElementById("dc").style.background == selected) {
+		selectedGlaze = "dc"
+	}
+	else {
+		selectedGlaze = "none"
+	}
+	return [selectedGlaze, selectedQuantity];
+}
 
 // Buttons
 
