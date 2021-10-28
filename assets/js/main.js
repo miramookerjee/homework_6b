@@ -87,7 +87,7 @@ function updateItemsList() {
 
 	// loop through each item in cart
 	for (var i = 0; i < cart.length; i++) { 
-		
+
 		let item = document.createElement("div");
 		itemList.appendChild(item);
 		item.className = "product_details_and_image";
@@ -102,6 +102,18 @@ function updateItemsList() {
 		// title 
 		let productDetails = document.createElement("div");
 		item.appendChild(productDetails);
+		productDetails.className = "product_details";
+		let title = document.createElement("span");
+		productDetails.appendChild(title);
+		title.className = "product-in-cart-title";
+		title.innerHTML = "Original Cinnamon Roll";
+
+		// price
+		productDetails.appendChild( document.createTextNode(getSpaces()));
+		let price = document.createElement("span");
+		productDetails.appendChild(price);
+		let quantity = cart[i][1];
+		price.innerHTML = calculatePrice(quantity);
 
 		// glazing dropdown
 
@@ -109,6 +121,26 @@ function updateItemsList() {
 
 		// remove button 
 	}
+}
+
+function calculatePrice(quantity) {
+	if (quantity == "one") {
+		return "$1.99"
+	}
+	else if (quantity == "three") {
+		return "$" + String(1.99 * 3)
+	}
+	else if (quantity == "six") {
+		return "$" + String(1.99 * 6)
+	}
+	else if (quantity == "twelve") {
+		return "$" + String(1.99 * 12)
+	}
+}
+
+function getSpaces() {
+	// return the correct number of spaces (16) between the product title and price in the cart page
+	return "\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003"
 }
 
 function onLoad() {
