@@ -19,13 +19,67 @@ function addToCart() {
 
 	updateCartAmount();
 
-	// add to items list in summary card of cart page
-	//updateSummaryCard(cart);
+	
 	
 } 
 
+function updateSummaryCard() {
+	// Update product list 
+	
+	let tag = document.createElement("p");
+	let text = document.createTextNode("Sample text");
+	tag.appendChild(text);
+	let itemsList = document.getElementById("summary-card-items-list");
+	console.log(itemsList);
+	itemsList.appendChild(tag);
+	console.log( document.getElementById("summary-card-items-list").children);
+
+	// Update total price
+	let totalPrice = calculateTotalPrice();
+	document.getElementById("cart-total").innerHTML = "Total: ".bold() + totalPrice;
+
+	// Update number of items
+	let totalQuantity = calculateTotalQuantity();
+	document.getElementById("cart-item-count").innerHTML = "Items: ".bold() + totalQuantity;
+
+}
+
+function updateItemsList() {
+	let itemList = document.getElementById("individual-items-in-cart");
+	let item = document.createElement("div");
+	itemList.appendChild(item);
+	item.className = "product_details_and_image";
+
+	// image 
+	let image = document.createElement("img");
+	item.appendChild(image);
+	image.className = "cart-image";
+	image.src = "images/original.png";
+	image.alt = "Orginal Cinnamon Roll";
+
+	// title 
+	let productDetails = document.createElement("div");
+	item.appendChild(productDetails);
+
+	// glazing dropdown
+
+	// quantity dropdown
+
+	// remove button 
+}
+
 function onLoad() {
-	updateCartAmount()
+	updateCartAmount();
+}
+
+function onLoadCart() {
+	updateCartAmount();
+	// add to items list in summary card of cart page
+	let cart = JSON.parse(localStorage.getItem("cart"));
+	updateSummaryCard(cart);
+
+	// add items to items list on left side of cart page
+	updateItemsList()
 }
 
 
@@ -34,19 +88,55 @@ function updateCartAmount() {
 	let cartAmounts = document.querySelectorAll(".cart-amount");
 	let cart = JSON.parse(localStorage.getItem("cart"));
 	let amount = cart.length;
-	let newAmount = parseInt(amount) 
-	cartAmounts.forEach( cartAmount => cartAmount.textContent = "(" + newAmount + ")"	 )
+	let newAmount = parseInt(amount); 
+	cartAmounts.forEach( cartAmount => cartAmount.textContent = "(" + newAmount + ")"	 );
 }
 
-function updateSummaryCard(cart) {
-	let tag = document.createElement("p");
-	let text = document.createTextNode("Sample text");
-	tag.appendChild(text);
-	let itemsList = document.getElementById("summary-card-items-list");
-	console.log(itemsList);
-	itemsList.appendChild(tag);
-	console.log( document.getElementById("summary-card-items-list").children)
+function calculateTotalPrice() {
+	// calculate total price of items in the cart, return as string
+	let cart = JSON.parse(localStorage.getItem("cart"));
+	var total = 0
+	for (var i = 0; i < cart.length; i++) { 
+		quantity = cart[i][1];
+		if (quantity == "one") {
+			total += 1.99
+		}
+		else if (quantity == "three") {
+			total += (1.99 * 3)
+		}
+		else if (quantity == "six") {
+			total += (1.99 * 6)
+		}
+		else if (quantity == "twelve") {
+			total += (1.99 * 12)
+		}
+	}
+	return total.toFixed(2)
 }
+
+function calculateTotalQuantity() {
+	// calculate total quantity of items in the cart, return as string
+	let cart = JSON.parse(localStorage.getItem("cart"));
+	var total = 0
+	for (var i = 0; i < cart.length; i++) { 
+		quantity = cart[i][1];
+		if (quantity == "one") {
+			total += 1
+		}
+		else if (quantity == "three") {
+			total += 3
+		}
+		else if (quantity == "six") {
+			total += 6
+		}
+		else if (quantity == "twelve") {
+			total += 12
+		}
+	}
+	console.log(total)
+	return total
+}
+
 
 function getSelected() {
 	var selected = "rgb(240, 215, 185)";

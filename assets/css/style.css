@@ -114,11 +114,29 @@
 	background-color: #F5E7E3;
 	border-radius: 10px;
 	float: right;
-	height: 90%;
+	height: 100%;
 	margin-left: 2em;
 	margin-right: 4em;
 	padding: 0em 2em 2em 2em;
 	width: 22%;
+}
+
+/* learned scrrollbar from:
+https://stackoverflow.com/questions/1202425/making-the-main-scrollbar-always-visible
+*/
+#summary-card-items-list {
+	height: 200px;
+	overflow: -moz-scrollbars-vertical; 
+	overflow-y: scroll;
+}
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 4px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
 
 /* Dropdowns */
