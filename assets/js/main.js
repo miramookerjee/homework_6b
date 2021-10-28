@@ -2,7 +2,6 @@ function addToCart() {
 	// For debugging purposes -- uncomment below line to reset cart
 	//localStorage.setItem("cart", JSON.stringify([]));
 
-	let cartAmount = document.getElementById("cart-amount");
 	let cartElement = getSelected(); 
 	
 	// retrieve cart
@@ -11,7 +10,6 @@ function addToCart() {
 	}
 	var cart = JSON.parse(localStorage.getItem("cart"));
 	
-
 	// add to cart
 	cart.push(cartElement);
 
@@ -19,24 +17,35 @@ function addToCart() {
 	localStorage.setItem("cart", JSON.stringify(cart));
 	console.log(cart);
 
-
-	// replace text in nav
-	var amount = 0
-	amount = cartAmount.textContent.replace(/\D/g,'') // removes all non-numeric digits from string
-	let newAmount = parseInt(amount) + 1
-	cartAmount.textContent = "(" + newAmount + ")"	
+	updateCartAmount();
 
 	// add to items list in summary card of cart page
-	updateSummaryCard(cart);
+	//updateSummaryCard(cart);
 	
 } 
 
+function onLoad() {
+	updateCartAmount()
+}
+
+
+function updateCartAmount() {
+	// update amount in cart in nav
+	let cartAmounts = document.querySelectorAll(".cart-amount");
+	let cart = JSON.parse(localStorage.getItem("cart"));
+	let amount = cart.length;
+	let newAmount = parseInt(amount) 
+	cartAmounts.forEach( cartAmount => cartAmount.textContent = "(" + newAmount + ")"	 )
+}
+
 function updateSummaryCard(cart) {
 	let tag = document.createElement("p");
-	let text = document.createTextNode("Tutorix is the best e-learning platform");
+	let text = document.createTextNode("Sample text");
 	tag.appendChild(text);
 	let itemsList = document.getElementById("summary-card-items-list");
+	console.log(itemsList);
 	itemsList.appendChild(tag);
+	console.log( document.getElementById("summary-card-items-list").children)
 }
 
 function getSelected() {
