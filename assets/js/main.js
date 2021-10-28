@@ -15,57 +15,100 @@ function addToCart() {
 
 	// add to local storage
 	localStorage.setItem("cart", JSON.stringify(cart));
-	console.log(cart);
-
 	updateCartAmount();
 
 	
 	
 } 
 
-function updateSummaryCard() {
-	// Update product list 
-	
-	let tag = document.createElement("p");
-	let text = document.createTextNode("Sample text");
-	tag.appendChild(text);
-	let itemsList = document.getElementById("summary-card-items-list");
-	console.log(itemsList);
-	itemsList.appendChild(tag);
-	console.log( document.getElementById("summary-card-items-list").children);
+function getFormattedGlaze(glaze) {
+	if (glaze == "none") {
+		return "No Glaze"
+	}
+	else if (glaze == "sm") {
+		return "Sugar-Milk Glaze"
+	}
+	else if (glaze == "vm") {
+		return "Vanilla-Milk Glaze"
+	}
+	else if (glaze == "dc") {
+		return "Double-Chocolate Glaze"
+	}
+}
 
+function getFormattedQuantity(quantity) {
+	if (quantity == "one") {
+		return "1-Pack"
+	}
+	else if (quantity == "three") {
+		return "3-Pack"
+	}
+	else if (quantity == "six") {
+		return "6-Pack"
+	}
+	else if (quantity == "twelve") {
+		return "12-Pack"
+	}
+}
+
+function createText(element) {
+	// create the text to be added to summary card based off of array from saved cart
+	let glaze = element[0];
+	let quantity = element[1];
+	var glazeFormatted = getFormattedGlaze(glaze);
+	var quantityFormatted = getFormattedQuantity(quantity);
+	return "Original Cinnamon Roll, " + glazeFormatted + ", " + quantityFormatted
+}
+
+function updateSummaryCard() {
+	let cart = JSON.parse(localStorage.getItem("cart"));
+
+	// Update product list 
+	for (var i = 0; i < cart.length; i++) { 
+		let tag = document.createElement("p");
+		let text = document.createTextNode(createText(cart[i]));
+		tag.appendChild(text);
+		let itemsList = document.getElementById("summary-card-items-list");
+		itemsList.appendChild(tag);
+	}
+	
 	// Update total price
 	let totalPrice = calculateTotalPrice();
-	document.getElementById("cart-total").innerHTML = "Total: ".bold() + totalPrice;
+	document.getElementById("cart-total").innerHTML = "Total: ".bold() + "$" + totalPrice;
 
 	// Update number of items
-	let totalQuantity = calculateTotalQuantity();
-	document.getElementById("cart-item-count").innerHTML = "Items: ".bold() + totalQuantity;
+	document.getElementById("cart-item-count").innerHTML = "Items: ".bold() + cart.length;
 
 }
 
 function updateItemsList() {
+	let cart = JSON.parse(localStorage.getItem("cart"));
 	let itemList = document.getElementById("individual-items-in-cart");
-	let item = document.createElement("div");
-	itemList.appendChild(item);
-	item.className = "product_details_and_image";
 
-	// image 
-	let image = document.createElement("img");
-	item.appendChild(image);
-	image.className = "cart-image";
-	image.src = "images/original.png";
-	image.alt = "Orginal Cinnamon Roll";
+	// loop through each item in cart
+	for (var i = 0; i < cart.length; i++) { 
+		
+		let item = document.createElement("div");
+		itemList.appendChild(item);
+		item.className = "product_details_and_image";
 
-	// title 
-	let productDetails = document.createElement("div");
-	item.appendChild(productDetails);
+		// image 
+		let image = document.createElement("img");
+		item.appendChild(image);
+		image.className = "cart-image";
+		image.src = "images/original.png";
+		image.alt = "Orginal Cinnamon Roll";
 
-	// glazing dropdown
+		// title 
+		let productDetails = document.createElement("div");
+		item.appendChild(productDetails);
 
-	// quantity dropdown
+		// glazing dropdown
 
-	// remove button 
+		// quantity dropdown
+
+		// remove button 
+	}
 }
 
 function onLoad() {
@@ -133,7 +176,6 @@ function calculateTotalQuantity() {
 			total += 12
 		}
 	}
-	console.log(total)
 	return total
 }
 
