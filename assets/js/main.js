@@ -84,10 +84,16 @@ function updateSummaryCard() {
 function updateItemsList() {
 	let cart = JSON.parse(localStorage.getItem("cart"));
 	let itemList = document.getElementById("individual-items-in-cart");
+	let glazes = ["none", "sm", "vm", "dc"];
+	let quantities = ["one", "three", "six", "twelve"];
 
 	// loop through each item in cart
 	for (var i = 0; i < cart.length; i++) { 
 
+		let glazing = cart[i][0];
+		let quantity = cart[i][1];
+
+		// create div container for entire item
 		let item = document.createElement("div");
 		itemList.appendChild(item);
 		item.className = "product_details_and_image";
@@ -112,14 +118,134 @@ function updateItemsList() {
 		productDetails.appendChild( document.createTextNode(getSpaces()));
 		let price = document.createElement("span");
 		productDetails.appendChild(price);
-		let quantity = cart[i][1];
 		price.innerHTML = calculatePrice(quantity);
 
 		// glazing dropdown
+		let glazingDropdown = document.createElement("div");
+		glazingDropdown.className = "glazing_dropdown";
+		productDetails.appendChild(glazingDropdown);
+		productDetails.id = i;
+		let linebreak = document.createElement("br");
+		glazingDropdown.appendChild(linebreak);
+		let label = document.createElement("label");
+		glazingDropdown.appendChild(label);
+		label.innerHTML = "Glazing:";
+		glazingDropdown.appendChild(document.createTextNode("\u2003"));
+		let select = document.createElement("select");
+		glazingDropdown.appendChild(select);
+		select.name = "glazing";
+		select.className = "glazing_options";
+		populateDropdown(select, glazing, glazes, "glaze");
 
 		// quantity dropdown
+		linebreak = document.createElement("br");
+		productDetails.appendChild(linebreak);
+
+		let quantityDropdown = document.createElement("div");
+		quantityDropdown.className = "quantity_dropdown";
+		productDetails.appendChild(quantityDropdown);
+		label = document.createElement("label");
+		quantityDropdown.appendChild(label);
+		label.innerHTML = "Qty:";
+		quantityDropdown.appendChild(document.createTextNode("\u2003"));
+		select = document.createElement("select");
+		quantityDropdown.appendChild(select);
+		select.name = "quantity";
+		select.className = "quantity_options";
+		populateDropdown(select, quantity, quantities, "quantity");
 
 		// remove button 
+		linebreak = document.createElement("br");
+		productDetails.appendChild(linebreak);
+		let removeButton = document.createElement("button");
+		productDetails.appendChild(removeButton);
+		removeButton.className = "remove-from-cart-btn";
+		let removeButtonText = document.createTextNode("Remove");
+		removeButton.appendChild(removeButtonText);
+		//removeButton.onclick = function() {cart.splice(i, 1)};
+		console.log(cart);
+		removeButton.onclick = removeFromCart;
+
+		// border between items
+		linebreak = document.createElement("br");
+		itemList.appendChild(linebreak);
+		linebreak = document.createElement("br");
+		itemList.appendChild(linebreak);
+
+		let borderBetweenCartItems = document.createElement("hr");
+		borderBetweenCartItems.className = "cart-border";
+		itemList.append(borderBetweenCartItems);
+
+		linebreak = document.createElement("br");
+		itemList.appendChild(linebreak);
+		linebreak = document.createElement("br");
+		itemList.appendChild(linebreak);
+	}
+
+}
+
+function removeFromCart(e) {
+	let indexInCart = e.currentTarget.parentNode.id;
+	cart = JSON.parse(localStorage.getItem("cart"));
+	cart.splice(indexInCart, 1);
+	localStorage.setItem("cart", JSON.stringify(cart));
+	location.reload();
+	return false;
+}
+
+function getValue(selection) {
+	// get value for option in dropdown
+
+	// glazes
+	if (selection == "none") {
+		return "none"
+	}
+	else if (selection == "sm") {
+		return "sugar-milk"
+	}
+	else if (selection == "vm") {
+		return "vanilla-milk"
+	}
+	else if (selection == "dc") {
+		return "double-chocolate"
+	}
+
+	// quantities
+	else if (selection == "one") {
+		return "1"
+	}
+	else if (selection == "three") {
+		return "3"
+	}
+	else if (selection == "six") {
+		return "6"
+	}
+	else if (selection == "twelve") {
+		return "12"
+	}
+}
+
+function populateDropdown(selectElement, selection, options, type) {
+	// used to create glazing and quantity dropdowns for items in cart
+	// help from https://jaketrent.com/post/remove-array-element-without-mutating
+	
+	let index = options.indexOf(selection);
+	
+	// put selection at the front of the options 
+	options = [selection].concat(options.slice(0, index)).concat(options.slice(index+1));
+
+	// loop through options and add to dropdown
+	for (var i = 0; i < 4; i++) { 
+		let thisOption = options[i];
+		let option = document.createElement("option");
+		selectElement.appendChild(option);
+		option.value = getValue(thisOption);
+		if (type == "glaze") {
+			option.innerHTML = getFormattedGlaze(thisOption);
+		}
+		else {
+			option.innerHTML = getFormattedQuantity(thisOption);
+		}
 	}
 }
 
