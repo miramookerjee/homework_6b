@@ -24,6 +24,7 @@
 }
 
 /* Cart */
+
 #add_to_cart_btn {
 	color: black;
 	background-color: #FFFFFF; 
@@ -37,6 +38,15 @@
   	text-decoration: none;
 	padding: 0.5em;
   	width: 45%; 	
+}
+
+
+#add_to_cart_btn:hover  {
+  background: #E6C3B8;
+}
+
+#add_to_cart_btn:active {
+  background: #E5D7D3;
 }
 
 #add_to_cart_btn_text {
