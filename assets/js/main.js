@@ -283,6 +283,13 @@ function onLoadCart() {
 	updateItemsList()
 }
 
+function onLoadProductDetail() {
+	updateCartAmount();
+	// set background colors of first button
+	document.getElementById("one").style.background = "rgb(240, 215, 185)";
+	document.getElementById("none").style.background = "rgb(240, 215, 185)";
+}
+
 
 function updateCartAmount() {
 	// update amount in cart in nav
@@ -380,6 +387,9 @@ function deselectIfSelected(id, unselected) {
 	// If a different button is already selected, this function will deselect it
 	var selected = "rgb(240, 215, 185)"
 	var button = document.getElementById(id)
+	console.log(button)
+	console.log(button.style)
+	console.log(button.style.background)
 	if (button.style.background === selected) {
 		
 		button.style.background = unselected
@@ -388,14 +398,18 @@ function deselectIfSelected(id, unselected) {
 
 function selectButtonHelper(selected, unselected, id, others) {
 	// helps button serve as radio button while mantaining styling
+
+	// check if each of the other buttons are already selected
+	others.forEach ( other => deselectIfSelected(other, unselected) )
+
+	// check other buttons 
 	var button = document.getElementById(id)
 	if (button.style.background === selected) {
 		button.style.background = unselected
 	}
 	else {
 		button.style.background = selected
-		// check if each of the other buttons are already selected
-		others.forEach ( other => deselectIfSelected(other, unselected) )
+		
 	}
 
 }

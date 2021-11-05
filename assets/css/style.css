@@ -244,12 +244,21 @@ https://stackoverflow.com/questions/1202425/making-the-main-scrollbar-always-vis
 	margin-left: 3.7em;
 }
 
+
 #first_quantity {
 	margin-left: 2em;
 }
 
 #glaze_second_row {
 	margin-left: 13.2em;
+}
+
+#none {
+	background: #F0D7B9;
+}
+
+#one {
+	background: #F0D7B9;
 }
 
 #price {
