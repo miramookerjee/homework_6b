@@ -136,6 +136,7 @@ function updateItemsList() {
 		select.name = "glazing";
 		select.className = "glazing_options";
 		populateDropdown(select, glazing, glazes, "glaze");
+		glazingDropdown.onchange = updateAfterDropdownChange;
 
 		// quantity dropdown
 		linebreak = document.createElement("br");
@@ -153,6 +154,7 @@ function updateItemsList() {
 		select.name = "quantity";
 		select.className = "quantity_options";
 		populateDropdown(select, quantity, quantities, "quantity");
+		quantityDropdown.onchange = updateAfterDropdownChange;
 
 		// remove button 
 		linebreak = document.createElement("br");
@@ -182,6 +184,31 @@ function updateItemsList() {
 		itemList.appendChild(linebreak);
 	}
 
+}
+
+function updateAfterDropdownChange(e) {
+	// update the page after a new option is selected on cart page
+	let selectedValue = e.currentTarget.children[1].value;
+	let indexInCart = e.currentTarget.parentNode.id;
+	let cart = JSON.parse(localStorage.getItem("cart"));
+	console.log(selectedValue);
+	if (selectedValue == 1) {
+		cart[indexInCart][1] = "one"
+	}
+	else if (selectedValue == 3) {
+		cart[indexInCart][1] = "three"
+		console.log(cart);
+	}
+	else if (selectedValue == 6) {
+		cart[indexInCart][1] = "six"
+		console.log(cart);
+	}
+	else if (selectedValue == 12) {
+		cart[indexInCart][1] = "twelve"
+		console.log(cart);
+	}
+	localStorage.setItem("cart", JSON.stringify(cart));
+	location.reload()
 }
 
 function removeFromCart(e) {
