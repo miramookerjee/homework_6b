@@ -1,27 +1,41 @@
-function addToCart() {
-	// For debugging purposes -- uncomment below line to reset cart
-	//localStorage.setItem("cart", JSON.stringify([]));
+/* ******************************* onload functions ******************************* */
 
-	let cartElement = getSelected(); 
-	
-	// retrieve cart
-	if (localStorage.getItem("cart") == null) {
-		localStorage.setItem("cart", JSON.stringify([]));
-	}
-	var cart = JSON.parse(localStorage.getItem("cart"));
-	
-	// add to cart
-	cart.push(cartElement);
-
-	// add to local storage
-	localStorage.setItem("cart", JSON.stringify(cart));
+function onLoad() {
 	updateCartAmount();
+}
 
-	
-	
-} 
+function onLoadCart() {
+	// onload function for cart page
+	updateCartAmount();
+	// add to items list in summary card of cart page
+	let cart = JSON.parse(localStorage.getItem("cart"));
+	updateSummaryCard(cart);
+
+	// add items to items list on left side of cart page
+	updateItemsList()
+}
+
+function onLoadProductDetail() {
+	updateCartAmount();
+	// set background colors of first button
+	document.getElementById("one").style.background = "rgb(240, 215, 185)";
+	document.getElementById("none").style.background = "rgb(240, 215, 185)";
+}
+
+function updateCartAmount() {
+	// update amount in cart in nav
+	let cartAmounts = document.querySelectorAll(".cart-amount");
+	let cart = JSON.parse(localStorage.getItem("cart"));
+	let amount = cart.length;
+	let newAmount = parseInt(amount); 
+	cartAmounts.forEach( cartAmount => cartAmount.textContent = "(" + newAmount + ")"	 );
+}
+
+/* ******************************* update cart page ******************************* */
 
 function getFormattedGlaze(glaze) {
+	// translates id of a glaze to the string form of the glaze shown to users
+	// Called in createText()
 	if (glaze == "none") {
 		return "No Glaze"
 	}
@@ -37,6 +51,8 @@ function getFormattedGlaze(glaze) {
 }
 
 function getFormattedQuantity(quantity) {
+	// translates id of a glaze to the string form of the glaze shown to users
+	// Called in createText()
 	if (quantity == "one") {
 		return "1-Pack"
 	}
@@ -53,14 +69,17 @@ function getFormattedQuantity(quantity) {
 
 function createText(element) {
 	// create the text to be added to summary card based off of array from saved cart
+	// called in updateSummaryCard()
 	let glaze = element[0];
 	let quantity = element[1];
 	var glazeFormatted = getFormattedGlaze(glaze);
 	var quantityFormatted = getFormattedQuantity(quantity);
-	return "Original Cinnamon Roll, " + glazeFormatted + ", " + quantityFormatted
+	return "Original Cinnamon Roll, " + glazeFormatted + ", " + quantityFormatted;
 }
 
 function updateSummaryCard() {
+	// update the summary card with data in the cart when cart page reloads
+	// called in onLoadCart()
 	let cart = JSON.parse(localStorage.getItem("cart"));
 
 	// Update product list 
@@ -81,7 +100,56 @@ function updateSummaryCard() {
 
 }
 
+function calculateTotalPrice() {
+	// calculate total price of items in the cart, return as string
+	// called in updateSummaryCard()
+	let cart = JSON.parse(localStorage.getItem("cart"));
+	var total = 0
+	for (var i = 0; i < cart.length; i++) { 
+		quantity = cart[i][1];
+		if (quantity == "one") {
+			total += 1.99
+		}
+		else if (quantity == "three") {
+			total += (1.99 * 3)
+		}
+		else if (quantity == "six") {
+			total += (1.99 * 6)
+		}
+		else if (quantity == "twelve") {
+			total += (1.99 * 12)
+		}
+	}
+	return total.toFixed(2)
+}
+
+// function calculateTotalQuantity() {
+// 	// calculate total quantity of items in the cart, return as string
+//  // not used but keeping the  code, as this may prove useful in future
+// 	let cart = JSON.parse(localStorage.getItem("cart"));
+// 	var total = 0
+// 	for (var i = 0; i < cart.length; i++) { 
+// 		quantity = cart[i][1];
+// 		if (quantity == "one") {
+// 			total += 1
+// 		}
+// 		else if (quantity == "three") {
+// 			total += 3
+// 		}
+// 		else if (quantity == "six") {
+// 			total += 6
+// 		}
+// 		else if (quantity == "twelve") {
+// 			total += 12
+// 		}
+// 	}
+// 	return total
+// }
+
+
 function updateItemsList() {
+	// update the list of items when cart page reloads
+	// called in onLoadCart()
 	let cart = JSON.parse(localStorage.getItem("cart"));
 	let itemList = document.getElementById("individual-items-in-cart");
 	let glazes = ["none", "sm", "vm", "dc"];
@@ -136,7 +204,6 @@ function updateItemsList() {
 		select.name = "glazing";
 		select.className = "glazing_options";
 		populateDropdown(select, glazing, glazes, "glaze");
-		glazingDropdown.onchange = updateAfterDropdownChange;
 
 		// quantity dropdown
 		linebreak = document.createElement("br");
@@ -188,6 +255,7 @@ function updateItemsList() {
 
 function updateAfterDropdownChange(e) {
 	// update the page after a new option is selected on cart page
+	// set as onChange function of quantity dropdown in updateItemsList()
 	let selectedValue = e.currentTarget.children[1].value;
 	let indexInCart = e.currentTarget.parentNode.id;
 	let cart = JSON.parse(localStorage.getItem("cart"));
@@ -212,6 +280,8 @@ function updateAfterDropdownChange(e) {
 }
 
 function removeFromCart(e) {
+	// remove the element that is clicked from local storage
+	// set as onClick function of remove button in updateItemsList()
 	let indexInCart = e.currentTarget.parentNode.id;
 	cart = JSON.parse(localStorage.getItem("cart"));
 	cart.splice(indexInCart, 1);
@@ -222,6 +292,7 @@ function removeFromCart(e) {
 
 function getValue(selection) {
 	// get value for option in dropdown
+	// called in popoulateDropdown()
 
 	// glazes
 	if (selection == "none") {
@@ -254,6 +325,7 @@ function getValue(selection) {
 
 function populateDropdown(selectElement, selection, options, type) {
 	// used to create glazing and quantity dropdowns for items in cart
+	// called in getItemsList()
 	// help from https://jaketrent.com/post/remove-array-element-without-mutating
 	
 	let index = options.indexOf(selection);
@@ -277,6 +349,8 @@ function populateDropdown(selectElement, selection, options, type) {
 }
 
 function calculatePrice(quantity) {
+	// for an entry in the cart with a given quantity, calculate the price of that entry
+	// called in getItemsList()
 	if (quantity == "one") {
 		return "$1.99"
 	}
@@ -293,86 +367,35 @@ function calculatePrice(quantity) {
 
 function getSpaces() {
 	// return the correct number of spaces (16) between the product title and price in the cart page
+	// called in getItemsList()
 	return "\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003"
 }
 
-function onLoad() {
-	updateCartAmount();
-}
+/* ******************************* add to cart - product detail page ******************************* */
 
-function onLoadCart() {
-	updateCartAmount();
-	// add to items list in summary card of cart page
-	let cart = JSON.parse(localStorage.getItem("cart"));
-	updateSummaryCard(cart);
-
-	// add items to items list on left side of cart page
-	updateItemsList()
-}
-
-function onLoadProductDetail() {
-	updateCartAmount();
-	// set background colors of first button
-	document.getElementById("one").style.background = "rgb(240, 215, 185)";
-	document.getElementById("none").style.background = "rgb(240, 215, 185)";
-}
-
-
-function updateCartAmount() {
-	// update amount in cart in nav
-	let cartAmounts = document.querySelectorAll(".cart-amount");
-	let cart = JSON.parse(localStorage.getItem("cart"));
-	let amount = cart.length;
-	let newAmount = parseInt(amount); 
-	cartAmounts.forEach( cartAmount => cartAmount.textContent = "(" + newAmount + ")"	 );
-}
-
-function calculateTotalPrice() {
-	// calculate total price of items in the cart, return as string
-	let cart = JSON.parse(localStorage.getItem("cart"));
-	var total = 0
-	for (var i = 0; i < cart.length; i++) { 
-		quantity = cart[i][1];
-		if (quantity == "one") {
-			total += 1.99
-		}
-		else if (quantity == "three") {
-			total += (1.99 * 3)
-		}
-		else if (quantity == "six") {
-			total += (1.99 * 6)
-		}
-		else if (quantity == "twelve") {
-			total += (1.99 * 12)
-		}
+function addToCart() {
+	// function called when add to cart button is pressed on product detail page
+	let cartElement = getSelected(); 
+	
+	// retrieve cart
+	if (localStorage.getItem("cart") == null) {
+		localStorage.setItem("cart", JSON.stringify([]));
 	}
-	return total.toFixed(2)
-}
+	var cart = JSON.parse(localStorage.getItem("cart"));
+	
+	// add to cart
+	cart.push(cartElement);
 
-function calculateTotalQuantity() {
-	// calculate total quantity of items in the cart, return as string
-	let cart = JSON.parse(localStorage.getItem("cart"));
-	var total = 0
-	for (var i = 0; i < cart.length; i++) { 
-		quantity = cart[i][1];
-		if (quantity == "one") {
-			total += 1
-		}
-		else if (quantity == "three") {
-			total += 3
-		}
-		else if (quantity == "six") {
-			total += 6
-		}
-		else if (quantity == "twelve") {
-			total += 12
-		}
-	}
-	return total
-}
+	// add to local storage
+	localStorage.setItem("cart", JSON.stringify(cart));
+	updateCartAmount();
 
+	
+	
+} 
 
 function getSelected() {
+	// called in addToCart()
 	var selected = "rgb(240, 215, 185)";
 	var selectedQuantity;
 	var selectedGlaze;
@@ -406,11 +429,11 @@ function getSelected() {
 	}
 	return [selectedGlaze, selectedQuantity];
 }
+/* ******************************* q/g selections - product detail page ******************************* */
 
-// Buttons
 
 function deselectIfSelected(id, unselected) {
-	// helper function that is called when a quantity or glaze is selected. 
+	// called in seletButtonHelper() when a quantity or glaze is selected
 	// If a different button is already selected, this function will deselect it
 	var selected = "rgb(240, 215, 185)"
 	var button = document.getElementById(id)
@@ -425,8 +448,8 @@ function deselectIfSelected(id, unselected) {
 
 function selectButtonHelper(selected, unselected, id, others) {
 	// helps button serve as radio button while mantaining styling
-
 	// check if each of the other buttons are already selected
+	// called for each of the eight q/g selection functions 
 	others.forEach ( other => deselectIfSelected(other, unselected) )
 
 	// check other buttons 
@@ -444,6 +467,7 @@ function selectButtonHelper(selected, unselected, id, others) {
 // Quantity
 
 function selectQuantityOne() {
+	// called when 1 button is pressed
 	var selected = "rgb(240, 215, 185)"
 	var unselected = "rgb(255, 255, 255)"
 	var others = ["three", "six", "twelve"]
@@ -453,6 +477,7 @@ function selectQuantityOne() {
 }
 
 function selectQuantityThree() {
+	// called when 3 button is pressed
 	var selected = "rgb(240, 215, 185)"
 	var unselected = "rgb(255, 255, 255)"
 	var others = ["one", "six", "twelve"]
@@ -463,6 +488,7 @@ function selectQuantityThree() {
 
 
 function selectQuantitySix() {
+	// called when 6 button is pressed
 	var selected = "rgb(240, 215, 185)"
 	var unselected = "rgb(255, 255, 255)"
 	var others = ["one", "three", "twelve"]
@@ -473,6 +499,7 @@ function selectQuantitySix() {
 
 
 function selectQuantityTwelve() {
+	// called when 12 button is pressed
 	var selected = "rgb(240, 215, 185)"
 	var unselected = "rgb(255, 255, 255)"
 	var others = ["one", "three", "six"]
@@ -483,6 +510,7 @@ function selectQuantityTwelve() {
 
 // Glaze
 function selectNoGlaze() {
+	// called when none button is pressed
 	var selected = "rgb(240, 215, 185)"
 	var unselected = "rgb(238, 235, 233)"
 	var others = ["sm", "vm", "dc"]
@@ -493,6 +521,7 @@ function selectNoGlaze() {
 } 
 
 function selectSMGlaze() {
+	// called when sugar-milk button is pressed
 	var selected = "rgb(240, 215, 185)"
 	var unselected = "rgb(238, 235, 233)"
 	var others = ["none", "vm", "dc"]
@@ -503,6 +532,7 @@ function selectSMGlaze() {
 }
 
 function selectVMGlaze() {
+	// called when vanilla-milk button is pressed
 	var selected = "rgb(240, 215, 185)"
 	var unselected = "rgb(238, 235, 233)"
 	var others = ["sm", "none", "dc"]
@@ -513,6 +543,7 @@ function selectVMGlaze() {
 }
 
 function selectDCGlaze() {
+	// called when double-chocolate button is pressed
 	var selected = "rgb(240, 215, 185)"
 	var unselected = "rgb(238, 235, 233)"
 	var others = ["sm", "vm", "none"]
@@ -523,6 +554,8 @@ function selectDCGlaze() {
 }
 
 function updateProductName(field, value) {
+	// update product name to be displayed on product detail page based on selected button
+	// helper function called at the end of each of the eight q/g selection functions 
 	let productNameArray = document.getElementById("product_name_title").innerHTML.split(",");
 	if (field === "quantity") {
 		productNameArray[2] = value;
@@ -538,6 +571,8 @@ function updateProductName(field, value) {
 }
 
 function updateImage(value) {
+	// update product image to be displayed on product detail page based on selected glaze button
+	// helper function called at the end of each of the four glaze selection functions 
 	var img = document.getElementById("product_detail_image")
 	if (value === "none") {
 		img.src = "images/original_large.png"
