@@ -232,7 +232,6 @@ function updateItemsList() {
 		let removeButtonText = document.createTextNode("Remove");
 		removeButton.appendChild(removeButtonText);
 		//removeButton.onclick = function() {cart.splice(i, 1)};
-		console.log(cart);
 		removeButton.onclick = removeFromCart;
 
 		// border between items
@@ -259,21 +258,17 @@ function updateAfterDropdownChange(e) {
 	let selectedValue = e.currentTarget.children[1].value;
 	let indexInCart = e.currentTarget.parentNode.id;
 	let cart = JSON.parse(localStorage.getItem("cart"));
-	console.log(selectedValue);
 	if (selectedValue == 1) {
 		cart[indexInCart][1] = "one"
 	}
 	else if (selectedValue == 3) {
 		cart[indexInCart][1] = "three"
-		console.log(cart);
 	}
 	else if (selectedValue == 6) {
 		cart[indexInCart][1] = "six"
-		console.log(cart);
 	}
 	else if (selectedValue == 12) {
 		cart[indexInCart][1] = "twelve"
-		console.log(cart);
 	}
 	localStorage.setItem("cart", JSON.stringify(cart));
 	location.reload()
@@ -388,10 +383,7 @@ function addToCart() {
 
 	// add to local storage
 	localStorage.setItem("cart", JSON.stringify(cart));
-	updateCartAmount();
-
-	
-	
+	updateCartAmount();	
 } 
 
 function getSelected() {
@@ -437,9 +429,6 @@ function deselectIfSelected(id, unselected) {
 	// If a different button is already selected, this function will deselect it
 	var selected = "rgb(240, 215, 185)"
 	var button = document.getElementById(id)
-	console.log(button)
-	console.log(button.style)
-	console.log(button.style.background)
 	if (button.style.background === selected) {
 		
 		button.style.background = unselected
@@ -474,6 +463,7 @@ function selectQuantityOne() {
 	selectButtonHelper(selected, unselected, "one", others)
 	//update rest of page based on selection
 	updateProductName("quantity", "1-Pack")	
+	updateQuantityText("$1.99")
 }
 
 function selectQuantityThree() {
@@ -484,6 +474,7 @@ function selectQuantityThree() {
 	selectButtonHelper(selected, unselected, "three", others)
 	//update rest of page based on selection
 	updateProductName("quantity", "3-Pack")
+	updateQuantityText("$5.97")
 }
 
 
@@ -495,6 +486,7 @@ function selectQuantitySix() {
 	selectButtonHelper(selected, unselected, "six", others)
 	//update rest of page based on selection
 	updateProductName("quantity", "6-Pack")
+	updateQuantityText("$11.94")
 }
 
 
@@ -506,8 +498,16 @@ function selectQuantityTwelve() {
 	selectButtonHelper(selected, unselected, "twelve", others)
 	//update rest of page based on selection
 	updateProductName("quantity", "12-Pack")
+	updateQuantityText("$23.88")
 }
 
+function updateQuantityText(price) {
+	// helper function called in each of the four quantity select functions
+	console.log("total price");
+	console.log(document.getElementById("product_total_price").innerHTML) 
+	document.getElementById("product_total_price").childNodes[0].textContent = "Total: " + price;
+	document.getElementById("price").childNodes[0].textContent = price;
+}
 // Glaze
 function selectNoGlaze() {
 	// called when none button is pressed
